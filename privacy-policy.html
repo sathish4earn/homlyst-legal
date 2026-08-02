@@ -14,13 +14,6 @@
     line-height: 1.6;
     color: #222;
   }
-  @media (prefers-color-scheme: dark) {
-    body { color: #e8e8e8; background: #17171a; }
-    a { color: #7db8ff; }
-    table { border-color: #444 !important; }
-    th, td { border-color: #444 !important; }
-    .notice { background: #2a2410; border-color: #6b5b1a; }
-  }
   h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
   h2 { font-size: 1.2rem; margin-top: 2rem; border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 0.3rem; }
   .notice {
@@ -35,6 +28,18 @@
   th, td { border: 1px solid rgba(128,128,128,0.35); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
   th { background: rgba(128,128,128,0.12); }
   code { font-size: 0.9em; }
+  /* Dark-mode overrides deliberately placed LAST so they win the cascade on
+     equal specificity — a media block earlier in the file loses to a later
+     unconditional rule of the same specificity, which is what caused the
+     .notice box to render illegibly (light text on its light-mode cream
+     background) the first time this page was tested in dark mode. */
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #17171a; }
+    a { color: #7db8ff; }
+    table { border-color: #444 !important; }
+    th, td { border-color: #444 !important; }
+    .notice { background: #2a2410; border-color: #6b5b1a; }
+  }
 </style>
 </head>
 <body>
