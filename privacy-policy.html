@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HomLyst Privacy Notice</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    line-height: 1.6;
+    color: #222;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e8e8; background: #17171a; }
+    a { color: #7db8ff; }
+    table { border-color: #444 !important; }
+    th, td { border-color: #444 !important; }
+    .notice { background: #2a2410; border-color: #6b5b1a; }
+  }
+  h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.2rem; margin-top: 2rem; border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 0.3rem; }
+  .notice {
+    background: #fff8e1;
+    border: 1px solid #e0c66b;
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.95rem;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.92rem; }
+  th, td { border: 1px solid rgba(128,128,128,0.35); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+  th { background: rgba(128,128,128,0.12); }
+  code { font-size: 0.9em; }
+</style>
+</head>
+<body>
+
+<h1>HomLyst Privacy Notice</h1>
+
+<div class="notice">
+<strong>Status: pending formal legal review.</strong> This describes what the app actually
+does as of this writing. It has not yet been reviewed by counsel familiar with
+India's Digital Personal Data Protection (DPDP) Act 2023 (HomLyst's primary
+market) or, if the app has or will have EU/UK/California users, GDPR/UK
+GDPR/CCPA. This document does not itself make HomLyst compliant with any of
+those laws — it's the factual starting point a lawyer needs to assess
+compliance, published here as an accurate good-faith description in the
+meantime.
+</div>
+
+<h2>1. What we collect, and why</h2>
+<table>
+<tr><th>Data</th><th>Why we collect it</th><th>Where it's stored</th></tr>
+<tr><td>Shopping list content (categories, items, quantities)</td><td>The core feature of the app</td><td>On your device only, unless you use "Share with HomLyst User" or the QR/link sharing feature</td></tr>
+<tr><td>Display name (optional, you type it in)</td><td>Shown to people you share a list with, e.g. "Sathish sent you a shopping list"</td><td>Our server, if you use the sharing feature</td></tr>
+<tr><td>Phone number (optional, you type it in)</td><td>Lets another HomLyst user send you a list by typing your number</td><td>Our server — <strong>never in readable form</strong> (see §2)</td></tr>
+<tr><td>Push notification token (FCM for Android, APNs for iOS)</td><td>Delivers "someone shared a list with you" notifications</td><td>Our server, and Google/Apple's push infrastructure</td></tr>
+<tr><td>Device identifier (a random ID generated on install, not your phone's hardware ID)</td><td>Lets the server recognize your device across app sessions</td><td>Our server</td></tr>
+<tr><td>Country/catalog and language choice</td><td>Shows you the right grocery categories and translations</td><td>On your device; sent to our server only to fetch the matching catalog</td></tr>
+<tr><td>Advertising data (Google AdMob)</td><td>Shows ads that support free use of the app</td><td>Google, per <a href="https://policies.google.com/technologies/ads">Google's own ad privacy disclosures</a> — HomLyst does not receive or store this data itself</td></tr>
+</table>
+
+<p>We do <strong>not</strong> collect: your contacts list, precise location, payment information, or anyone else's phone number besides the one you explicitly type in to send them a list.</p>
+
+<h2>2. How your phone number is protected</h2>
+<p>If you enter your phone number (Settings → Profile) or send a list to someone else's number, that number is sent to our server once, over an encrypted connection. The server immediately converts it into a one-way scrambled value (a keyed cryptographic hash) before saving anything — <strong>the readable phone number itself is never written to our database and never appears in our logs.</strong></p>
+<p>This means:</p>
+<ul>
+<li>If our database were ever breached, the attacker would see meaningless scrambled values, not phone numbers.</li>
+<li>We can still recognize "this is the same phone number as before" (so sharing works), without ever storing it in readable form.</li>
+<li>We cannot look up or recover your phone number from what's stored — the process only works one way.</li>
+</ul>
+<p>This is a real technical safeguard (a form of pseudonymization), but your phone number is still legally "personal data" as long as it's collected at all — this notice, your consent, and your rights below still apply.</p>
+
+<h2>3. Who else sees this data (sub-processors)</h2>
+<table>
+<tr><th>Service</th><th>Purpose</th><th>Data involved</th></tr>
+<tr><td>Google Firebase Cloud Messaging</td><td>Push notifications on Android</td><td>Push token</td></tr>
+<tr><td>Apple Push Notification service</td><td>Push notifications on iOS</td><td>Push token</td></tr>
+<tr><td>Supabase (PostgreSQL, hosted in the ap-south-1/Mumbai region)</td><td>Database storage</td><td>Scrambled phone number, display name, device ID, push token, shared list content</td></tr>
+<tr><td>Railway</td><td>Backend server hosting</td><td>Same as above, in transit</td></tr>
+<tr><td>Google AdMob</td><td>Advertising</td><td>Advertising identifiers, per Google's own policies</td></tr>
+<tr><td>jsDelivr (GitHub-backed CDN)</td><td>Delivers grocery catalog content (no personal data)</td><td>None (public, non-personal catalog files only)</td></tr>
+</table>
+<p><em>(This list should be verified against actual Data Processing Agreements with each provider as part of the pending legal review.)</em></p>
+
+<h2>4. How long we keep it</h2>
+<ul>
+<li><strong>Shared-list invitations</strong>: kept for 48 hours (their normal lifetime), then automatically deleted about a week later at the latest.</li>
+<li><strong>Device registration</strong> (push token, scrambled phone, display name): automatically deleted if the app hasn't been opened in 12 months. Reopening the app afterward simply re-registers it.</li>
+<li><strong>Shopping list content</strong>: stays on your device under your control (History screen) until you delete it yourself; we don't have a copy unless you actively share it.</li>
+</ul>
+
+<h2>5. Your rights</h2>
+<ul>
+<li><strong>Access</strong> — ask what we hold about your device/phone/name (contact us; no automated export tool yet).</li>
+<li><strong>Correction</strong> — change your name/phone/language any time in Settings.</li>
+<li><strong>Erasure</strong> — request deletion of your device's server-side record at any time (in-app "Delete my data" action planned; until then, contact us directly).</li>
+<li><strong>Withdraw consent</strong> — simply don't fill in a phone number/name if you don't want to use the sharing feature; the rest of the app works fully offline without it.</li>
+</ul>
+
+<h2>6. Children's privacy</h2>
+<p>HomLyst is not directed at children and we don't knowingly collect data from users under 13 (or the minimum age in your country, if higher). <em>(An explicit policy decision + possibly an age gate is part of the pending legal review.)</em></p>
+
+<h2>7. Contact</h2>
+<p>For any question about this notice or your data, contact: <strong><a href="mailto:sathish4earn@gmail.com">sathish4earn@gmail.com</a></strong></p>
+
+</body>
+</html>
