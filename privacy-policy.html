@@ -61,16 +61,19 @@ meantime.
 <h2>1. What we collect, and why</h2>
 <table>
 <tr><th>Data</th><th>Why we collect it</th><th>Where it's stored</th></tr>
-<tr><td>Shopping list content (categories, items, quantities)</td><td>The core feature of the app</td><td>On your device only, unless you use "Share with HomLyst User" or the QR/link sharing feature</td></tr>
-<tr><td>Display name (optional, you type it in)</td><td>Shown to people you share a list with, e.g. "Sathish sent you a shopping list"</td><td>Our server, if you use the sharing feature</td></tr>
-<tr><td>Phone number (optional, you type it in)</td><td>Lets another HomLyst user send you a list by typing your number</td><td>Our server — <strong>never in readable form</strong> (see §2)</td></tr>
-<tr><td>Push notification token (FCM for Android, APNs for iOS)</td><td>Delivers "someone shared a list with you" notifications</td><td>Our server, and Google/Apple's push infrastructure</td></tr>
+<tr><td>Shopping list content (categories, items, quantities)</td><td>The core feature of the app</td><td>On your device only, unless you use "Share with HomLyst User," QR/link sharing, or Family Space</td></tr>
+<tr><td>Display name (optional, you type it in)</td><td>Shown to people you share a list with or collaborate with in a Family Space, e.g. "Sathish sent you a shopping list" or "Added by Sathish"</td><td>Our server, if you use a sharing or collaboration feature</td></tr>
+<tr><td>Phone number (optional, you type it in)</td><td>Lets another HomLyst user send you a list, or invite you to a Family Space, by typing your number</td><td>Our server — <strong>never in readable form</strong> (see §2)</td></tr>
+<tr><td>Family Space photo (optional, you pick it)</td><td>Lets your household recognize a shared Family Space at a glance</td><td>Our server, resized and compressed, only if you choose to add one</td></tr>
+<tr><td>Family Space / Trip Chat messages and item activity</td><td>Lets household members coordinate a shared list in real time</td><td>Our server, visible to other members of that Family Space</td></tr>
+<tr><td>Approximate location (only when you use "Nearby Shops," permission requested each time)</td><td>Finds nearby stores for the categories in your list</td><td>Sent to our server for that search and to Google Places/Routes to look up stores; not stored linked to your device or identity — only a coarse, rounded location bucket is cached to speed up repeat searches near the same area</td></tr>
+<tr><td>Push notification token (FCM for Android, APNs for iOS)</td><td>Delivers "someone shared a list with you" and Family Space notifications</td><td>Our server, and Google/Apple's push infrastructure</td></tr>
 <tr><td>Device identifier (a random ID generated on install, not your phone's hardware ID)</td><td>Lets the server recognize your device across app sessions</td><td>Our server</td></tr>
 <tr><td>Country/catalog and language choice</td><td>Shows you the right grocery categories and translations</td><td>On your device; sent to our server only to fetch the matching catalog</td></tr>
 <tr><td>Advertising data (Google AdMob)</td><td>Shows ads that support free use of the app</td><td>Google, per <a href="https://policies.google.com/technologies/ads">Google's own ad privacy disclosures</a> — HomLyst does not receive or store this data itself</td></tr>
 </table>
 
-<p>We do <strong>not</strong> collect: your contacts list, precise location, payment information, or anyone else's phone number besides the one you explicitly type in to send them a list.</p>
+<p>We do <strong>not</strong> collect: your contacts list (only the single contact you explicitly pick to invite is read, never uploaded in bulk), precise/background location (only an approximate, one-time location when you actively use "Nearby Shops"), payment information, or anyone else's phone number besides the one you explicitly type in or pick to invite.</p>
 
 <h2>2. How your phone number is protected</h2>
 <p>If you enter your phone number (Settings → Profile) or send a list to someone else's number, that number is sent to our server once, over an encrypted connection. The server immediately converts it into a one-way scrambled value (a keyed cryptographic hash) before saving anything — <strong>the readable phone number itself is never written to our database and never appears in our logs.</strong></p>
@@ -90,6 +93,7 @@ meantime.
 <tr><td>Supabase (PostgreSQL, hosted in the ap-south-1/Mumbai region)</td><td>Database storage</td><td>Scrambled phone number, display name, device ID, push token, shared list content</td></tr>
 <tr><td>Railway</td><td>Backend server hosting</td><td>Same as above, in transit</td></tr>
 <tr><td>Google AdMob</td><td>Advertising</td><td>Advertising identifiers, per Google's own policies</td></tr>
+<tr><td>Google Places API / Google Routes API</td><td>Looks up nearby stores and routes when you use "Nearby Shops"</td><td>Approximate location (sent per search, not linked to your device or stored by Google on our behalf)</td></tr>
 <tr><td>jsDelivr (GitHub-backed CDN)</td><td>Delivers grocery catalog content (no personal data)</td><td>None (public, non-personal catalog files only)</td></tr>
 </table>
 <p><em>(This list should be verified against actual Data Processing Agreements with each provider as part of the pending legal review.)</em></p>
@@ -105,12 +109,12 @@ meantime.
 <ul>
 <li><strong>Access</strong> — ask what we hold about your device/phone/name (contact us; no automated export tool yet).</li>
 <li><strong>Correction</strong> — change your name/phone/language any time in Settings.</li>
-<li><strong>Erasure</strong> — request deletion of your device's server-side record at any time (in-app "Delete my data" action planned; until then, contact us directly).</li>
+<li><strong>Erasure</strong> — request deletion of your device's server-side record at any time via Settings → "Delete my data" in the app, or by contacting us directly. This erases your name, phone number, and push registration from our servers, and clears your cart and history on that device; content you've already shared in a Family Space, Event, or Trip Chat may still be visible to other members there.</li>
 <li><strong>Withdraw consent</strong> — simply don't fill in a phone number/name if you don't want to use the sharing feature; the rest of the app works fully offline without it.</li>
 </ul>
 
 <h2>6. Children's privacy</h2>
-<p>HomLyst is not directed at children and we don't knowingly collect data from users under 13 (or the minimum age in your country, if higher). <em>(An explicit policy decision + possibly an age gate is part of the pending legal review.)</em></p>
+<p>HomLyst is not directed at children and we don't knowingly collect data from users under 13 (or the minimum age in your country, if higher). "Family Space" is a household-coordination feature for the adults managing a shared shopping list, not a product for children to use directly. <em>(An explicit policy decision + possibly an age gate is part of the pending legal review.)</em></p>
 
 <h2>7. Contact</h2>
 <p>For any question about this notice or your data, contact: <strong><a href="mailto:homlyst@gmail.com">homlyst@gmail.com</a></strong></p>
